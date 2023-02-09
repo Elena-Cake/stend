@@ -1,6 +1,6 @@
 
 import './TableResultsDone.css';
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { AgGridReact } from 'ag-grid-react';
 import 'ag-grid-enterprise';
 import 'ag-grid-community/styles/ag-grid.css';
@@ -56,27 +56,9 @@ const TableResultsDone = ({ }) => {
 
     }
 
-    // посмотреть функцию по массиву дат
-    function getDatesInRange(startDate, endDate) {
-        const date = new Date(startDate.getTime());
-
-        date.setDate(date.getDate() + 1);
-
-        const dates = [];
-
-        while (date < endDate) {
-            dates.push(new Date(date));
-            date.setDate(date.getDate() + 1);
-        }
-
-        return dates;
-    }
-
-    const d1 = new Date('2022-08-29');
-    const d2 = new Date('2022-09-01');
-
-    console.log(getDatesInRange(d1, d2));
-
+    useEffect(() => {
+        console.clear()
+      }, []);
 
     return (
         <>

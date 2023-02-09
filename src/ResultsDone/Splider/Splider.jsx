@@ -1,5 +1,7 @@
 import React, { useState } from "react";
-import { BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts'; import './Splider.css';
+import { BarChart, Bar, Cell, XAxis, 
+        YAxis, CartesianGrid, Tooltip, Legend,
+        ResponsiveContainer } from 'recharts'; import './Splider.css';
 
 const Splider = ({ }) => {
     const [date, setDate] = useState([1, 2, 3, 4]);
