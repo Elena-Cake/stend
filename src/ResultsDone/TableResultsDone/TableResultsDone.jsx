@@ -22,12 +22,6 @@ const TableResultsDone = ({ }) => {
                     idInstruments: keyInst,
                     name: res.configurations[key].instruments[keyInst].name,
                     latitude: res.configurations[key].instruments[keyInst].latitude,
-                    longitude: res.configurations[key].instruments[keyInst].longitude,
-                    mode: res.configurations[key].instruments[keyInst].mode,
-                    voko: res.configurations[key].instruments[keyInst].voko,
-                    noko: res.configurations[key].instruments[keyInst].noko,
-                    noko_twilight: res.configurations[key].instruments[keyInst].noko_twilight,
-                    gso_survey: res.configurations[key].instruments[keyInst].gso_survey
                 }
                 rowDataGenerated.push(item)
             }
@@ -44,15 +38,9 @@ const TableResultsDone = ({ }) => {
 
     // Each Column Definition results in one Column.
     const [columnDefs, setColumnDefs] = useState([
-        { field: 'idInstruments' },
+        { field: 'idInstruments', checkboxSelection: true },
         { field: 'name' },
-        { field: 'latitude' },
-        { field: 'longitude' },
-        { field: 'mode' },
-        { field: 'voko' },
-        { field: 'noko' },
-        { field: 'noko_twilight' },
-        { field: 'gso_survey' }
+        { field: 'latitude' }
     ]);
 
 
@@ -64,6 +52,10 @@ const TableResultsDone = ({ }) => {
         };
     }, []);
 
+    const handleClickTableCheck = () => {
+
+    }
+
     return (
         <>
             <div style={containerStyle}>
@@ -72,10 +64,11 @@ const TableResultsDone = ({ }) => {
                         rowData={rowData}
                         columnDefs={columnDefs}
                         defaultColDef={defaultColDef}
+                        rowSelection='multiple'
                     ></AgGridReact>
                 </div>
             </div>
-            <button className="button" >Запустить расчет</button>
+            <button className="button" onClick={handleClickTableCheck}>Запустить расчет</button>
         </>
     )
 }

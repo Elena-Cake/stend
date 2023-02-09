@@ -1,61 +1,83 @@
-import React from "react";
-import Charts from "./Charts/Charts";
-import ChartsBar from "./ChartsBar/ChartsBar";
-import './Splider.css';
-import { Splide, SplideTrack, SplideSlide } from '@splidejs/react-splide';
-import '@splidejs/react-splide/css';
+import React, { useState } from "react";
+import { BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts'; import './Splider.css';
 
 const Splider = ({ }) => {
+    const [date, setDate] = useState([1, 2, 3, 4]);
+    const [data, setData] = useState({ one: [1, 2, 5, 6], two: [2, 5, 6, 7], three: [8, 5, 2, 1] });
+    const [activeSlide, setActiveSlide] = useState(0);
 
-    const thumbnails = {
-        rewind: true,
-        fixedWidth: 104,
-        fixedHeight: 58,
-        isNavigation: true,
-        gap: 10,
-        focus: 'center',
-        pagination: false,
-        cover: true,
-        dragMinThreshold: {
-            mouse: 4,
-            touch: 10,
-        },
-        breakpoints: {
-            640: {
-                fixedWidth: 66,
-                fixedHeight: 38,
-            },
-        },
+    // список ключей ответа
+    const keys = []
+    for (let key in data) {
+        keys.push(key)
+    };
+    // формирование опций для переключения
+    const options = keys.map((key, i) => <option className="charts__option" value={i}>{key}</option>);
+
+    const slideElements = keys.map((key, i) => {
+        // формирование массива объектов для граффиков
+        const dataChart = []
+        data[key].map((item, i) => {
+            dataChart.push({
+                name: date[i],
+                data: data[key][i]
+            })
+        })
+
+        return (
+            <div key={i} className={`slide ${activeSlide == i && 'slide_active'}`}>
+                <BarChart
+                    width={650}
+                    height={600}
+                    data={dataChart}
+                    margin={{
+                        top: 5,
+                        right: 30,
+                        left: 20,
+                        bottom: 5,
+                    }}
+                >
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis dataKey="name" label={{ value: "dates" }} />
+                    <YAxis />
+                    <Tooltip />
+                    <Legend />
+                    <Bar dataKey="data" fill="#8884d8" />
+                </BarChart>
+            </div>
+        )
+    })
+
+    // кнопки переключения слайдов
+    const onHandleNext = () => {
+        const activeSlideChange = activeSlide + 1
+        activeSlideChange <= keys.length - 1 ?
+            setActiveSlide(activeSlideChange) :
+            setActiveSlide(0)
+    }
+    const onHandlePrev = () => {
+        const activeSlideChange = activeSlide - 1
+        activeSlideChange >= 0 ?
+            setActiveSlide(activeSlideChange) :
+            setActiveSlide(keys.length - 1)
     }
 
     return (
         <div className="charts">
-            <select className="charts__select">
-                <option>1</option>
-                <option>2</option>
-                <option>3</option>
+            <select className="charts__select" onChange={(event) => setActiveSlide(event.target.value)}>
+                {options}
             </select>
-            <Splide hasTrack={false} aria-label="..." >
-                <div className="custom-wrapper">
-                    <SplideTrack>
-                        <SplideSlide>
-                            <ChartsBar />
-                        </SplideSlide>
-                        <SplideSlide>
-                            <Charts text={2} />
-                        </SplideSlide>
-                        <SplideSlide>
-                            <Charts text={3} />
-                        </SplideSlide>
-                    </SplideTrack>
-
-                    <div className="splide__arrows">
-                        <button className="splide__arrow splide__arrow--prev">Prev</button>
-                        <button className="splide__arrow splide__arrow--next">Next</button>
-                    </div>
-                </div>
-            </Splide>
-        </div>
+            <p className="charts__title">
+                {keys[activeSlide]}
+            </p>
+            <div className="slider">
+                {slideElements}
+            </div>
+            <div className="charts__btns">
+                <button className="charts__btn" onClick={onHandlePrev}>prev</button>
+                <button className="charts__btn" onClick={onHandleNext}>next</button>
+            </div>
+        </div >
     )
 }
 
