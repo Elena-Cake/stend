@@ -1,0 +1,46 @@
+{
+	"instruments": {
+		"10301": {
+			"latitude": 0.704,
+			"longitude": 0.77,
+			"altitude": 1530.0,
+			"aperture": "25",
+			"secondary_coefficient": 0.32,
+			"frame_delay": 3.0,
+			"series_delay_per_frame": 1.6,
+			"flushout": 0,
+			"transmittivity": 0.2,
+			"quantum_efficiency": 0.8,
+			"readout noise": 5,
+			"pixel_scale": 3.96,
+			"fovx": 3.3,
+			"fovy": 3.3,
+			"vel_x": 2.2,
+			"vel_y": 2.2,
+			"mount_type": "альтазимутальная",
+			"zenith_sky_brightness": 21.2,
+			"zenith_fwhm": 2.0
+		},
+		"10302": {
+			"latitude": 0.704,
+			"longitude": 0.77,
+			"altitude": 1530.0,
+			"aperture": "40",
+			"secondary_coefficient": 0.5,
+			"frame_delay": 3.0,
+			"series_delay_per_frame": 1.6,
+			"flushout": 0,
+			"transmittivity": 0.2,
+			"quantum_efficiency": 0.8,
+			"readout noise": 5,
+			"pixel_scale": 3.96,
+			"fovx": 3.3,
+			"fovy": 3.3,
+			"vel_x": 2.2,
+			"vel_y": 2.2,
+			"mount_type": "альтазимутальная",
+			"zenith_sky_brightness": 21.2,
+			"zenith_fwhm": 2.0
+		}
+	}
+}

@@ -1,0 +1,65 @@
+{
+	"success": true,
+	"configurations": {
+		"1": {
+			"name": "АЦУК",
+			"instruments": {
+				"10301": {
+					"name": "Бюр25",
+					"latitude": 0.704,
+					"longitude": 0.77,
+					"mode": "ЦУ",
+					"voko": true,
+					"noko": false,
+					"noko_twilight": false,
+					"gso_survey": false
+				},
+				"10302": {
+					"name": "Бюр19x2",
+					"latitude": 0.704,
+					"longitude": 0.77,
+					"mode": "обзор",
+					"voko": true,
+					"noko": false,
+					"noko_twilight": true,
+					"gso_survey": true
+				}
+			}
+		},
+		"2": {
+			"name": "АЦУК-М",
+			"instruments": {
+				"10301": {
+					"name": "Бюр25",
+					"latitude": 0.704,
+					"longitude": 0.77,
+					"mode": "ЦУ",
+					"voko": true,
+					"noko": false,
+					"noko_twilight": false,
+					"gso_survey": false
+				},
+				"10302": {
+					"name": "Бюр19x2",
+					"latitude": 0.704,
+					"longitude": 0.77,
+					"mode": "обзор",
+					"voko": true,
+					"noko": false,
+					"noko_twilight": true,
+					"gso_survey": true
+				},
+				"10314": {
+					"name": "Блг19x4",
+					"latitude": 0.87,
+					"longitude": 2.23,
+					"mode": "обзор",
+					"voko": true,
+					"noko": false,
+					"noko_twilight": true,
+					"gso_survey": true
+				}
+			}
+		}
+	}
+}

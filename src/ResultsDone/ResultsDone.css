@@ -1,0 +1,8 @@
+.resultsdone {
+    display: grid;
+    grid-template-areas:
+        'date date'
+        'table charts'
+        'btn charts';
+    grid-template-columns: 50% 49%;
+}

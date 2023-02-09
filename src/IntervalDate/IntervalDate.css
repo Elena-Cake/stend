@@ -1,0 +1,19 @@
+.intervaldate {
+    align-self: end;
+    grid-area: date;
+    display: grid;
+    grid-template-areas:
+        'title'
+        'interval';
+}
+
+.inputs__interval {
+    display: flex;
+}
+
+.inputs__date {
+    margin: 10px;
+    padding: 2px;
+    border: 0;
+    border-bottom: 1px solid rgba(9, 2, 104, 0.315);
+}
