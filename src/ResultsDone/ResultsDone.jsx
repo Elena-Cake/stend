@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import IntervalDate from "../IntervalDate/IntervalDate";
 import Splider from "./Splider/Splider";
 import './ResultsDone.css';
@@ -9,10 +9,10 @@ const ResultsDone = () => {
     const [dates, setDates] = useState([]);
     const [dateStart, setDateStart] = useState("")
     const [dateEnd, setDateEnd] = useState("")
+    const [arrayIdInstruments, setArrayIdInstruments] = useState([]);
 
     const handleStartDateChange = (date) => {
         setDateStart(date)
-        console.log('назначаю dateStart', dateStart)
     }
 
     const handleEndDateChange = (date) => {
@@ -34,18 +34,22 @@ const ResultsDone = () => {
         }
         return datesInInterval;
     }
-    console.log(getDatesInRange(dateStart, dateEnd), '-интервал из функции, а dateStart=', dateStart);
+    console.log(getDatesInRange(dateStart, dateEnd));
+
 
     // функция по нажатию на кнопку
     const createRequesObject = (arrayIdInstruments) => {
+        setArrayIdInstruments(arrayIdInstruments)
+    }
+
+    useEffect(() => {
         const dataRequest = {
             start_date: dateStart,
             end_date: dateEnd,
             site_id: arrayIdInstruments
         }
-        console.log('dateStart по кнопке', dateStart)
         console.log(dataRequest);
-    }
+    }, [dateStart, arrayIdInstruments])
 
 
     return (
