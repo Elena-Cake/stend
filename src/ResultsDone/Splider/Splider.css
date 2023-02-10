@@ -13,6 +13,7 @@
 }
 
 .charts__btns {
+    grid-area: arrows;
     display: flex;
     justify-content: center;
 }

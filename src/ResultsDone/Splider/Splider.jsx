@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { BarChart, Bar, Cell, XAxis, 
         YAxis, CartesianGrid, Tooltip, Legend,
-        ResponsiveContainer } from 'recharts'; import './Splider.css';
+        ResponsiveContainer } from 'recharts'; 
+import './Splider.css';
 
 const Splider = ({ }) => {
     const [date, setDate] = useState([1, 2, 3, 4]);
@@ -28,24 +29,24 @@ const Splider = ({ }) => {
 
         return (
             <div key={i} className={`slide ${activeSlide == i && 'slide_active'}`}>
-                <BarChart
-                    width={650}
-                    height={600}
-                    data={dataChart}
-                    margin={{
-                        top: 5,
-                        right: 30,
-                        left: 20,
-                        bottom: 5,
-                    }}
-                >
-                    <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey="name" label={{ value: "dates" }} />
-                    <YAxis />
-                    <Tooltip />
-                    <Legend />
-                    <Bar dataKey="data" fill="#8884d8" />
-                </BarChart>
+                    <BarChart
+                        width={900}
+                        height={520}
+                        data={dataChart}
+                        margin={{
+                            top: 5,
+                            right: 30,
+                            left: 20,
+                            bottom: 5,
+                        }}
+                    >
+                        <CartesianGrid strokeDasharray="3 3" />
+                        <XAxis dataKey="name" label={{ value: "dates" }} />
+                        <YAxis />
+                        <Tooltip />
+                        <Legend />
+                        <Bar dataKey="data" fill="#8884d8" />
+                    </BarChart>
             </div>
         )
     })

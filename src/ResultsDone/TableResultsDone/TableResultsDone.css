@@ -1,0 +1,4 @@
+.table {
+    grid-area: table;
+    position: relative;
+}

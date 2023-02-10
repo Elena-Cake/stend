@@ -1,6 +1,6 @@
 
 import './TableResultsDone.css';
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { AgGridReact } from 'ag-grid-react';
 import 'ag-grid-enterprise';
 import 'ag-grid-community/styles/ag-grid.css';
@@ -9,9 +9,10 @@ import 'ag-grid-community/styles/ag-theme-alpine.css';
 
 import configuration from '../../constans/configurations'
 
-const TableResultsDone = ({ }) => {
+const TableResultsDone = ({ onCreateRequesObject }) => {
+    const gridRef = useRef();
 
-    const containerStyle = useMemo(() => ({ width: '100%', height: '70vh' }), []);
+    const containerStyle = useMemo(() => ({ width: '100%', height: '74vh' }), []);
     const gridStyle = useMemo(() => ({ height: '100%', width: '100%' }), []);
 
     const changeResStructure = (res) => {
@@ -52,19 +53,24 @@ const TableResultsDone = ({ }) => {
         };
     }, []);
 
-    const handleClickTableCheck = () => {
-
-    }
-
     useEffect(() => {
         console.clear()
-      }, []);
+    }, []);
+
+    const getSelectedRows = useCallback(() => {
+        const arr = []
+        gridRef.current.api.forEachNode(function (node) {
+            node.isSelected() && arr.push(node.data.idInstruments);
+        });
+        onCreateRequesObject(arr)
+    }, []);
 
     return (
-        <>
+        <div className='table'>
             <div style={containerStyle}>
                 <div style={gridStyle} className="ag-theme-alpine ">
                     <AgGridReact
+                        ref={gridRef}
                         rowData={rowData}
                         columnDefs={columnDefs}
                         defaultColDef={defaultColDef}
@@ -72,8 +78,8 @@ const TableResultsDone = ({ }) => {
                     ></AgGridReact>
                 </div>
             </div>
-            <button className="button" onClick={handleClickTableCheck}>Запустить расчет</button>
-        </>
+            <button className="button" onClick={getSelectedRows}>Запустить расчет</button>
+        </div>
     )
 }
 
