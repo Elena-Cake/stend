@@ -11,6 +11,7 @@ const ResultsDone = () => {
     const [dateEnd, setDateEnd] = useState("")
     const [arrayIdInstruments, setArrayIdInstruments] = useState([]);
 
+
     const handleStartDateChange = (date) => {
         setDateStart(date)
     }
@@ -34,8 +35,6 @@ const ResultsDone = () => {
         }
         return datesInInterval;
     }
-    console.log(getDatesInRange(dateStart, dateEnd));
-
 
     // функция по нажатию на кнопку
     const createRequesObject = (arrayIdInstruments) => {
@@ -48,6 +47,7 @@ const ResultsDone = () => {
             end_date: dateEnd,
             site_id: arrayIdInstruments
         }
+        setDates(getDatesInRange(dateStart, dateEnd))
         console.log(dataRequest);
     }, [dateStart, arrayIdInstruments])
 
