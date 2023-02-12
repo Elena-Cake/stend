@@ -1,0 +1,15 @@
+.loader {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-image: url(../image/loader.gif);
+    background-size: 60px 60px;
+    background-repeat: no-repeat;
+    background-position: center;
+    transition: display 1s ease;
+    display: none;
+}
+
+.loader_visible {
+    display: block;
+}

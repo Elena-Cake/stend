@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import {
     BarChart, Bar, Cell, XAxis,
     YAxis, CartesianGrid, Tooltip, Legend,
-    ResponsiveContainer
+    ResponsiveContainer, Brush
 } from 'recharts';
 import './Splider.css';
 
@@ -31,7 +31,7 @@ const Splider = ({ dates }) => {
         return (
             <div key={i} className={`slide ${activeSlide == i && 'slide_active'}`}>
                 <BarChart
-                    width={900}
+                    width={700}
                     height={520}
                     data={dataChart}
                     margin={{
@@ -46,6 +46,7 @@ const Splider = ({ dates }) => {
                     <YAxis />
                     <Tooltip />
                     <Legend />
+                    <Brush dataKey="name" height={30} stroke="#8884d8" />
                     <Bar dataKey="data" fill="#8884d8" />
                 </BarChart>
             </div>

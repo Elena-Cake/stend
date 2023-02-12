@@ -4,6 +4,7 @@
         'date date'
         'table charts'
         'btn arrows';
-    grid-template-columns: 30% 69%;
+    grid-template-columns: minmax(200px, 500px) 700px;
     justify-content: center;
+    position: relative;
 }
