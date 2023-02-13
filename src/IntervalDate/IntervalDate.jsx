@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import './IntervalDate.css';
 
 const IntervalDate = ({ onStartDateChange, onEndDateChange, isErrorInputDateFrom, isErrorInputDateTo }) => {
+
+
     return (
         <div className="intervaldate">
             <h1 className="title">

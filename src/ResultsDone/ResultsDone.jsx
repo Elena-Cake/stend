@@ -83,15 +83,18 @@ const ResultsDone = () => {
             setIsErrorInputDateFrom(false)
             setIsErrorInputDateTo(false)
             setIsErrorArrayIdInstruments(false)
+            console.log(dataRequest)
 
             api.startCalculate(dataRequest)
                 .then((res) => {
                     console.log(res)
+                    openLoadingPopup()
+
                 })
+
             api.getLog()
                 .then((res) => {
                     console.log(res.data)
-                    openLoadingPopup()
                 })
         }
     }, [dataRequest])

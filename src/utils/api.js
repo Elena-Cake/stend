@@ -10,15 +10,21 @@ class Api {
         };
     }
 
-    //  Запуск задачи
+    // Запрос инструментов
+    getInstruments() {
+        return axios.get(`${this._startRequest}run`)
+            .then(this._checkRes)
+    }
+
+    // Запуск задачи
     startCalculate(data) {
-        return axios.post(`http://modeller:9090/run`, data)
+        return axios.post(`${this._startRequest}run`, data)
             .then(this._checkRes)
     }
 
     // Запрос лога
     getLog() {
-        return axios.get(`http://modeller:9090/getlog`)
+        return axios.get(`${this._startRequest}getlog`)
         // .then(this._checkRes)
     }
 

@@ -45,3 +45,7 @@
 .charts__title {
     text-align: center;
 }
+
+.charts_invisible {
+    display: none;
+}

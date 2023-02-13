@@ -8,6 +8,8 @@ import './Splider.css';
 
 const Splider = ({ dates }) => {
     const [data, setData] = useState({ one: [1, 2, 5, 6], two: [2, 5, 6, 7], three: [8, 5, 2, 1] });
+
+    // const [data, setData] = useState({});
     const [activeSlide, setActiveSlide] = useState(0);
 
     // список ключей ответа
@@ -68,7 +70,7 @@ const Splider = ({ dates }) => {
     }
 
     return (
-        <div className="charts">
+        <div className={`charts ${data === {} ? 'charts_invisible' : ''}`}>
             <select className="charts__select" onChange={(event) => setActiveSlide(event.target.value)}>
                 {options}
             </select>
