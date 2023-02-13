@@ -1,4 +1,6 @@
 
+import axios from "axios";
+
 class Api {
     constructor({ baseUrl, headers }) {
         this._startRequest = baseUrl
@@ -10,24 +12,14 @@ class Api {
 
     //  Запуск задачи
     startCalculate(data) {
-        return fetch(`${this._startRequest}run`, {
-            method: 'PATCH',
-            mode: 'cors',
-            headers: this._headers,
-            body: JSON.stringify(data)
-        })
+        return axios.post(`http://modeller:9090/run`, data)
             .then(this._checkRes)
     }
 
     // Запрос лога
     getLog() {
-        return fetch(`${this._startRequest}getlog`, {
-            headers: this._headers,
-            mode: 'no-cors',
-        })
-            .then(res => {
-                console.log(res.text())
-            })
+        return axios.get(`http://modeller:9090/getlog`)
+        // .then(this._checkRes)
     }
 
     // Запрос результата

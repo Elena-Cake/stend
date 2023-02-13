@@ -13,9 +13,9 @@ const ResultsDone = () => {
     const [isVisible, setIsVisible] = useState(false);
 
     const [dates, setDates] = useState([]);
-    const [dateStart, setDateStart] = useState("");
-    const [dateEnd, setDateEnd] = useState("");
-    const [arrayIdInstruments, setArrayIdInstruments] = useState([]);
+    const [dateStart, setDateStart] = useState('');
+    const [dateEnd, setDateEnd] = useState('');
+    const [arrayIdInstruments, setArrayIdInstruments] = useState([1]);
     const [dataRequest, setDataRequest] = useState({});
 
     const [isErrorInputDateFrom, setIsErrorInputDateFrom] = useState(false);
@@ -24,10 +24,12 @@ const ResultsDone = () => {
 
     const handleStartDateChange = (date) => {
         setDateStart(date)
+        setIsErrorInputDateFrom(false)
     };
 
     const handleEndDateChange = (date) => {
         setDateEnd(date)
+        setIsErrorInputDateTo(false)
     };
 
     // попап ожидания расчетов
@@ -73,28 +75,25 @@ const ResultsDone = () => {
     // отправка запроса
     useEffect(() => {
         //api
-        // if (dataRequest.start_date === "") {
-        //     setIsErrorInputDateFrom(true)
-        // } else if (arrayIdInstruments.length === 0) {
-        //     setIsErrorArrayIdInstruments(true)
-        // } else {
-        // setIsErrorInputDateFrom(false)
-        // setIsErrorInputDateTo(false)
-        // setIsErrorArrayIdInstruments(false)
-        // console.log(dataRequest);
-        // if (dataRequest.site_id !== []) {
-        //     api.startCalculate(dataRequest)
-        //         .then((res) => {
-        //             console.log(res)
-        //         })
-        // }
+        if (dataRequest.start_date === "" || dataRequest.end_date === "" || arrayIdInstruments.length === 0) {
+            dataRequest.start_date === "1" ? setIsErrorInputDateFrom(true) : setIsErrorInputDateFrom(false)
+            dataRequest.end_date === "1" ? setIsErrorInputDateTo(true) : setIsErrorInputDateTo(false)
+            arrayIdInstruments.length === 0 ? setIsErrorArrayIdInstruments(true) : setIsErrorArrayIdInstruments(false)
+        } else {
+            setIsErrorInputDateFrom(false)
+            setIsErrorInputDateTo(false)
+            setIsErrorArrayIdInstruments(false)
 
-        // setIsVisible(true)
-        // setTimeout(() => {
-        //     setIsVisible(false)
-        // }, 1000)
-        // }
-        openLoadingPopup()
+            api.startCalculate(dataRequest)
+                .then((res) => {
+                    console.log(res)
+                })
+            api.getLog()
+                .then((res) => {
+                    console.log(res.data)
+                    openLoadingPopup()
+                })
+        }
     }, [dataRequest])
 
     useEffect(() => {
@@ -102,11 +101,9 @@ const ResultsDone = () => {
         setIsErrorInputDateTo(false)
         setIsErrorArrayIdInstruments(false)
         api.getLog()
-            .then((res) => console.log(res))
-        axios.get(`http://modeller:9090/getlog`)
-            .then((res) => console.log(res))
-
-
+            .then((res) =>
+                console.log(res.data)
+            )
     }, [])
 
     return (
