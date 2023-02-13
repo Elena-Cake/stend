@@ -4,10 +4,7 @@ class Api {
         this._startRequest = baseUrl
         this._headers = headers
         this._checkRes = (res) => {
-            if (res.ok) {
-                return res.json();
-            }
-            return Promise.reject(`Ошибка: ${res.status} ${res.statusText}`)
+            return res.json();
         };
     }
 
@@ -26,10 +23,11 @@ class Api {
     getLog() {
         return fetch(`${this._startRequest}getlog`, {
             headers: this._headers,
-
-            mode: 'cors'
+            mode: 'no-cors',
         })
-            .then(this._checkRes)
+            .then(res => {
+                console.log(res.text())
+            })
     }
 
     // Запрос результата
@@ -52,7 +50,8 @@ class Api {
 export const api = new Api({
     baseUrl: 'http://modeller:9090/',
     headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'text/plain',
+        'Access-Control-Allow-Origin': '*'
     }
 
 }

@@ -5,9 +5,11 @@ import './ResultsDone.css';
 import TableResultsDone from "./TableResultsDone/TableResultsDone";
 import Loader from "../Loader/Loader";
 import { api } from "../utils/api";
+import axios from "axios";
+import LoadingPopup from "../LoadingPopup/LoadingPopup";
 
 const ResultsDone = () => {
-
+    const [isLoadingPopupOpen, setIsLoadingPopupOpen] = useState(false);
     const [isVisible, setIsVisible] = useState(false);
 
     const [dates, setDates] = useState([]);
@@ -27,6 +29,15 @@ const ResultsDone = () => {
     const handleEndDateChange = (date) => {
         setDateEnd(date)
     };
+
+    // попап ожидания расчетов
+    function openLoadingPopup() {
+        setIsLoadingPopupOpen(true)
+    }
+
+    function closeLoadingPopup() {
+        setIsLoadingPopupOpen(false)
+    }
 
     // функция формирует массив дат
     function getDatesInRange(startDate, endDate) {
@@ -70,7 +81,7 @@ const ResultsDone = () => {
         // setIsErrorInputDateFrom(false)
         // setIsErrorInputDateTo(false)
         // setIsErrorArrayIdInstruments(false)
-        console.log(dataRequest);
+        // console.log(dataRequest);
         // if (dataRequest.site_id !== []) {
         //     api.startCalculate(dataRequest)
         //         .then((res) => {
@@ -83,6 +94,7 @@ const ResultsDone = () => {
         //     setIsVisible(false)
         // }, 1000)
         // }
+        openLoadingPopup()
     }, [dataRequest])
 
     useEffect(() => {
@@ -91,6 +103,10 @@ const ResultsDone = () => {
         setIsErrorArrayIdInstruments(false)
         api.getLog()
             .then((res) => console.log(res))
+        axios.get(`http://modeller:9090/getlog`)
+            .then((res) => console.log(res))
+
+
     }, [])
 
     return (
@@ -105,6 +121,7 @@ const ResultsDone = () => {
                 isErrorArrayIdInstruments={isErrorArrayIdInstruments} />
             <Splider dates={dates} />
             <Loader isVisible={isVisible} />
+            <LoadingPopup isOpen={isLoadingPopupOpen} onClose={closeLoadingPopup} />
         </div>
     );
 }
