@@ -11,9 +11,31 @@
     display: flex;
 }
 
-.inputs__date {
+.input__date {
+    min-width: 130px;
     margin: 10px;
     padding: 2px;
     border: 0;
     border-bottom: 1px solid rgba(9, 2, 104, 0.315);
+}
+
+.input_wrong {
+    color: rgb(255, 0, 0);
+    border: 1px solid rgba(252, 0, 0, 0.315);
+    border-radius: 5px;
+}
+
+.error {
+    color: rgb(255, 0, 0);
+    position: absolute;
+    top: -15px;
+    left: 15px;
+    font-size: 12px;
+    background-color: rgba(255, 0, 0, 0.089);
+    padding: 2px 5px;
+    border-radius: 5px;
+}
+
+.error__wrapper {
+    position: relative;
 }

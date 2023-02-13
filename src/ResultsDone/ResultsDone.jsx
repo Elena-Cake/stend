@@ -4,6 +4,7 @@ import Splider from "./Splider/Splider";
 import './ResultsDone.css';
 import TableResultsDone from "./TableResultsDone/TableResultsDone";
 import Loader from "../Loader/Loader";
+import { api } from "../utils/api";
 
 const ResultsDone = () => {
 
@@ -15,6 +16,9 @@ const ResultsDone = () => {
     const [arrayIdInstruments, setArrayIdInstruments] = useState([]);
     const [dataRequest, setDataRequest] = useState({});
 
+    const [isErrorInputDateFrom, setIsErrorInputDateFrom] = useState(false);
+    const [isErrorInputDateTo, setIsErrorInputDateTo] = useState(false);
+    const [isErrorArrayIdInstruments, setIsErrorArrayIdInstruments] = useState(false);
 
     const handleStartDateChange = (date) => {
         setDateStart(date)
@@ -53,24 +57,52 @@ const ResultsDone = () => {
             site_id: arrayIdInstruments
         })
         setDates(getDatesInRange(dateStart, dateEnd))
-        console.log(dataRequest);
-
     }, [arrayIdInstruments])
 
     // отправка запроса
     useEffect(() => {
         //api
-        setIsVisible(true)
+        // if (dataRequest.start_date === "") {
+        //     setIsErrorInputDateFrom(true)
+        // } else if (arrayIdInstruments.length === 0) {
+        //     setIsErrorArrayIdInstruments(true)
+        // } else {
+        // setIsErrorInputDateFrom(false)
+        // setIsErrorInputDateTo(false)
+        // setIsErrorArrayIdInstruments(false)
         console.log(dataRequest);
-        setTimeout(() => {
-            setIsVisible(false)
-        }, 1000)
+        // if (dataRequest.site_id !== []) {
+        //     api.startCalculate(dataRequest)
+        //         .then((res) => {
+        //             console.log(res)
+        //         })
+        // }
+
+        // setIsVisible(true)
+        // setTimeout(() => {
+        //     setIsVisible(false)
+        // }, 1000)
+        // }
     }, [dataRequest])
+
+    useEffect(() => {
+        setIsErrorInputDateFrom(false)
+        setIsErrorInputDateTo(false)
+        setIsErrorArrayIdInstruments(false)
+        api.getLog()
+            .then((res) => console.log(res))
+    }, [])
 
     return (
         <div className="resultsdone">
-            <IntervalDate onStartDateChange={handleStartDateChange} onEndDateChange={handleEndDateChange} />
-            <TableResultsDone onCreateRequesObject={createRequesObject} />
+            <IntervalDate
+                onStartDateChange={handleStartDateChange}
+                onEndDateChange={handleEndDateChange}
+                isErrorInputDateFrom={isErrorInputDateFrom}
+                isErrorInputDateTo={isErrorInputDateTo}
+            />
+            <TableResultsDone onCreateRequesObject={createRequesObject}
+                isErrorArrayIdInstruments={isErrorArrayIdInstruments} />
             <Splider dates={dates} />
             <Loader isVisible={isVisible} />
         </div>

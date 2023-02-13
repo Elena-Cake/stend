@@ -9,7 +9,7 @@ import 'ag-grid-community/styles/ag-theme-alpine.css';
 
 import configuration from '../../constans/configurations'
 
-const TableResultsDone = ({ onCreateRequesObject }) => {
+const TableResultsDone = ({ onCreateRequesObject, isErrorArrayIdInstruments }) => {
     const gridRef = useRef();
 
     const containerStyle = useMemo(() => ({ width: '100%', height: '74vh' }), []);
@@ -35,9 +35,8 @@ const TableResultsDone = ({ onCreateRequesObject }) => {
 
     const [rowData, setRowData] = useState(
         changeResStructure(configuration)
-    ); // Set rowData to Array of Objects, one Object per Row
+    );
 
-    // Each Column Definition results in one Column.
     const [columnDefs, setColumnDefs] = useState([
         { field: 'idInstruments', checkboxSelection: true },
         { field: 'name' },
@@ -78,6 +77,8 @@ const TableResultsDone = ({ onCreateRequesObject }) => {
                     ></AgGridReact>
                 </div>
             </div>
+            {isErrorArrayIdInstruments &&
+                <span className="error">Выберете инстументы для проведения моделирования</span>}
             <button className="button" onClick={getSelectedRows}>Запустить расчет</button>
         </div>
     )

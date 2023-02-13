@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import {
-    BarChart, Bar, Cell, XAxis,
+    BarChart, Bar, XAxis,
     YAxis, CartesianGrid, Tooltip, Legend,
-    ResponsiveContainer, Brush
+    Brush
 } from 'recharts';
 import './Splider.css';
 
