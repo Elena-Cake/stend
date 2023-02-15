@@ -1,7 +1,7 @@
 import React from "react";
 import './LoadingPopup.css';
 
-const LoadingPopup = ({ isOpen, onClose }) => {
+const LoadingPopup = ({ isOpen, onClose, dataLog, textPopup }) => {
     const classPopup = `popup popup-addNS  ${isOpen ? 'popup_opened' : ''}`
     return (
         <div className={classPopup}>
@@ -12,11 +12,11 @@ const LoadingPopup = ({ isOpen, onClose }) => {
                     aria-label="закрыть окно">
                 </button>
                 <form className="popup__form" name="addPopup" >
-                    <h3 className="popup__title">Идет моделирование</h3>
-                    <div className="popup__text">В данный момент идет расчет по другому запросу.
-                        Вы можете прервать предыдущий расчет и запросить моделирование по
-                        собранной конфигурации наблюдательной сети или дождаться
-                        окончаня текущего моделирования.</div>
+                    <h3 className="popup__title">{textPopup}</h3>
+                    <div className="popup__text"></div>
+                    <div className="popup__log">
+                        {dataLog}
+                    </div>
                     <button className=" popup__button">Прервать текущий расчет</button>
                 </form>
             </div>

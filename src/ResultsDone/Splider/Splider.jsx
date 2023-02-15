@@ -6,16 +6,14 @@ import {
 } from 'recharts';
 import './Splider.css';
 
-const Splider = ({ dates }) => {
-    const [data, setData] = useState({ one: [1, 2, 5, 6], two: [2, 5, 6, 7], three: [8, 5, 2, 1] });
+const Splider = ({ dates, data }) => {
 
-    // const [data, setData] = useState({});
     const [activeSlide, setActiveSlide] = useState(0);
 
     // список ключей ответа
     const keys = []
     for (let key in data) {
-        keys.push(key)
+        if (key !== 'success') { keys.push(key) }
     };
     // формирование опций для переключения
     const options = keys.map((key, i) => <option className="charts__option" value={i}>{key}</option>);

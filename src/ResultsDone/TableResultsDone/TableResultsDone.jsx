@@ -38,7 +38,7 @@ const TableResultsDone = ({ onCreateRequesObject, isErrorArrayIdInstruments }) =
     );
 
     const [columnDefs, setColumnDefs] = useState([
-        { field: 'idInstruments', checkboxSelection: true },
+        { field: 'idInstruments', checkboxSelection: true, minWidth: 110 },
         { field: 'name' },
         { field: 'latitude' }
     ]);

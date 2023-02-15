@@ -88,3 +88,8 @@
     background-color: rgba(0, 24, 77, 0.527);
     color: white;
 }
+
+.popup__log {
+    width: 90%;
+    height: 100px;
+}

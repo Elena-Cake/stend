@@ -1,56 +1,47 @@
 
 import axios from "axios";
 
-class Api {
-    constructor({ baseUrl, headers }) {
-        this._startRequest = baseUrl
-        this._headers = headers
-        this._checkRes = (res) => {
-            return res.json();
-        };
+const instance = axios.create({
+    baseURL: 'http://modeller:9090/',
+    withCredentials: true,
+    headers: {
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*'
     }
+})
 
+export const api = {
     // Запрос инструментов
     getInstruments() {
-        return axios.get(`${this._startRequest}run`)
-            .then(this._checkRes)
-    }
+        return instance.get('run')
+            .then(res => res.json())
+    },
 
     // Запуск задачи
     startCalculate(data) {
-        return axios.post(`${this._startRequest}run`, data)
-            .then(this._checkRes)
-    }
+        return instance.post('run', JSON.stringify(data))
+            .then(res => res.data)
+    },
 
     // Запрос лога
     getLog() {
-        return axios.get(`${this._startRequest}getlog`)
-        // .then(this._checkRes)
-    }
+        return instance.get('getlog')
+            .then(res => res.data)
+    },
 
     // Запрос результата
     getResult() {
-        return fetch(`${this._startRequest}getres`, {
-            headers: this._headers,
-        })
-            .then(this._checkRes)
-    }
+        return instance.get('getres')
+            .then(res => res.data)
+    },
 
     // Принудительное завершение выполнения задачи
-    abortCalculate() {
-        return fetch(`${this._startRequest}abort`, {
-            headers: this._headers,
-        })
-            .then(this._checkRes)
+    abortCalculate(id) {
+        return instance.post('run', id)
+            .then(res => console.log(res))
     }
 }
 
-export const api = new Api({
-    baseUrl: 'http://modeller:9090/',
-    headers: {
-        'Content-Type': 'text/plain',
-        'Access-Control-Allow-Origin': '*'
-    }
 
-}
-)
+
+

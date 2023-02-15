@@ -16,7 +16,7 @@ const IntervalDate = ({ onStartDateChange, onEndDateChange, isErrorInputDateFrom
                         <span className="error">Это поле обязательное</span>}
                     <input className={`input__date ${isErrorInputDateFrom && 'input_wrong'}`} type="date" onChange={(e) => { onStartDateChange(e.target.value) }} />
                 </div>
-                <p className="inputs__text">по</p>
+                <p className="inputs__text">до</p>
                 <div className="error__wrapper">
                     {isErrorInputDateTo &&
                         <span className="error">Это поле обязательное</span>}
