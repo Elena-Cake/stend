@@ -7,9 +7,12 @@ import Loader from "../Loader/Loader";
 import { api } from "../utils/api";
 import axios from "axios";
 import LoadingPopup from "../LoadingPopup/LoadingPopup";
+import InfoPopup from "../InfoPopup/InfoPopup";
 
 const ResultsDone = () => {
     const [isLoadingPopupOpen, setIsLoadingPopupOpen] = useState(false);
+    const [isInfoPopupOpen, setIsInfoPopupOpen] = useState(false);
+
     const [isVisible, setIsVisible] = useState(false);
     const [textPopup, setTextPopup] = useState({ text: '', isError: false });
 
@@ -38,13 +41,19 @@ const ResultsDone = () => {
         setIsErrorInputDateTo(false)
     };
 
+    // попап оповещения расчетов
+    function openInfoPopup() {
+        setIsInfoPopupOpen(true)
+    }
+
     // попап ожидания расчетов
     function openLoadingPopup() {
         setIsLoadingPopupOpen(true)
     }
 
-    function closeLoadingPopup() {
+    function closePopups() {
         setIsLoadingPopupOpen(false)
+        setIsInfoPopupOpen(false)
     }
 
     // функция формирует массив дат
@@ -85,21 +94,21 @@ const ResultsDone = () => {
     }, [arrayIdInstruments])
 
     // получение статуса работы
-
     function longAPI() {
         let status
         api.getLog()
             .then((res) => {
                 status = res.message == [] ? '' : res.message;
                 setDataLog(status)
-                if (status !== 'finished' && status !== 'aborted') {
+                console.log(status)
+                if (status !== 'finished') {
                     setTimeout(longAPI, 5000)
                 } else {
                     api.getResult()
                         .then(data => {
                             setDataCharts(data)
                             setIsVisible(true)
-                            closeLoadingPopup()
+                            closePopups()
                         })
                 }
             })
@@ -121,7 +130,6 @@ const ResultsDone = () => {
             setDataLog('')
             api.startCalculate(dataRequest)
                 .then((data) => {
-                    console.log(data)
                     if (data.success === 1) {
                         setTextPopup({ text: 'Моделирование запущено', isError: false })
                         setDataLogMessage(data.message)
@@ -141,11 +149,9 @@ const ResultsDone = () => {
     const abortCulculate = () => {
         api.abortCalculate()
             .then((data) => {
-                console.log(data)
-                setDataLogMessage(data.message)
-                setDataLog('')
                 setTextPopup({ text: 'Моделирование прервано', isError: true })
-                openLoadingPopup()
+                closePopups()
+                openInfoPopup()
             })
     }
 
@@ -169,11 +175,15 @@ const ResultsDone = () => {
             <Loader />
             <LoadingPopup
                 isOpen={isLoadingPopupOpen}
-                onClose={closeLoadingPopup}
+                onClose={closePopups}
                 dataLog={dataLog}
                 dataLogMessage={dataLogMessage}
                 textPopup={textPopup}
-                onBtnClick={abortCulculate} />
+                onAbortClick={abortCulculate} />
+            <InfoPopup
+                isOpen={isInfoPopupOpen}
+                onClose={closePopups}
+                textPopup={textPopup} />
         </div>
     );
 }
