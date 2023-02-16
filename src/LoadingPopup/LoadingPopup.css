@@ -69,6 +69,10 @@
     font-size: 22px;
 }
 
+.popup__title_type_error {
+    color: #c00000;
+}
+
 .popup__text {
     margin: 10px 0 20px;
 }

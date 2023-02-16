@@ -11,7 +11,7 @@ import LoadingPopup from "../LoadingPopup/LoadingPopup";
 const ResultsDone = () => {
     const [isLoadingPopupOpen, setIsLoadingPopupOpen] = useState(false);
     const [isVisible, setIsVisible] = useState(false);
-    const [textPopup, setTextPopup] = useState('');
+    const [textPopup, setTextPopup] = useState({ text: '', isError: false });
 
     const [dates, setDates] = useState([]);
     const [dateStart, setDateStart] = useState('');
@@ -23,6 +23,7 @@ const ResultsDone = () => {
     const [isErrorInputDateTo, setIsErrorInputDateTo] = useState(false);
     const [isErrorArrayIdInstruments, setIsErrorArrayIdInstruments] = useState(false);
 
+    const [dataLogMessage, setDataLogMessage] = useState('')
     const [dataLog, setDataLog] = useState('')
 
     const [dataCharts, setDataCharts] = useState({})
@@ -83,6 +84,26 @@ const ResultsDone = () => {
         setDates(getDatesInRange(dateStart, dateEnd))
     }, [arrayIdInstruments])
 
+    // получение статуса работы
+
+    function longAPI() {
+        let status
+        api.getLog()
+            .then((res) => {
+                status = res.message == [] ? '' : res.message;
+                setDataLog(status)
+                if (status !== 'finished' && status !== 'aborted') {
+                    setTimeout(longAPI, 5000)
+                } else {
+                    api.getResult()
+                        .then(data => {
+                            setDataCharts(data)
+                            setIsVisible(true)
+                            closeLoadingPopup()
+                        })
+                }
+            })
+    }
 
     // отправка запроса
     useEffect(() => {
@@ -96,57 +117,42 @@ const ResultsDone = () => {
             setIsErrorInputDateTo(false)
             setIsErrorArrayIdInstruments(false)
             // console.log(dataRequest)
+            setDataLogMessage('')
             setDataLog('')
             api.startCalculate(dataRequest)
                 .then((data) => {
                     console.log(data)
                     if (data.success === 1) {
-                        setTextPopup('Моделирование запущено')
-                        setDataLog(data.message)
+                        setTextPopup({ text: 'Моделирование запущено', isError: false })
+                        setDataLogMessage(data.message)
                         openLoadingPopup()
-
-                        let status
-                        function longAPI() {
-                            api.getLog()
-                                .then((res) => {
-                                    console.log(res)
-                                    status = res.message == [] ? '' : res.message;
-                                    setDataLog(dataLog + "\n" + status)
-                                })
-                            if (status !== 'finished') {
-                                setTimeout(longAPI, 5000)
-                            } else {
-                                api.getResult()
-                                    .then(data => {
-                                        console.log(data)
-                                        setDataCharts(data)
-                                    })
-                            }
-                        }
                         longAPI()
                     } else if (data.success === 0) {
-                        setTextPopup('Не удалось запустить моделирование')
-                        setDataLog(data.message)
+                        setTextPopup({ text: 'Не удалось запустить моделирование', isError: true })
+                        setDataLogMessage(data.message)
                         openLoadingPopup()
-                        api.getLog()
-                            .then((res) => {
-                                const logi = dataLog
-                                console.log(res.message)
-                                setDataLog(logi + "\n" + res.message)
-                            })
+                        longAPI()
                     }
                 })
         }
     }, [dataRequest])
 
+    // прервать вычисление
+    const abortCulculate = () => {
+        api.abortCalculate()
+            .then((data) => {
+                console.log(data)
+                setDataLogMessage(data.message)
+                setDataLog('')
+                setTextPopup({ text: 'Моделирование прервано', isError: true })
+                openLoadingPopup()
+            })
+    }
+
     useEffect(() => {
         setIsErrorInputDateFrom(false)
         setIsErrorInputDateTo(false)
         setIsErrorArrayIdInstruments(false)
-        api.getLog()
-            .then((res) =>
-                console.log(res.data)
-            )
     }, [])
 
     return (
@@ -159,13 +165,15 @@ const ResultsDone = () => {
             />
             <TableResultsDone onCreateRequesObject={createRequesObject}
                 isErrorArrayIdInstruments={isErrorArrayIdInstruments} />
-            <Splider dates={dates} data={dataCharts} />
-            <Loader isVisible={isVisible} />
+            <Splider dates={dates} data={dataCharts} isVisible={isVisible} />
+            <Loader />
             <LoadingPopup
                 isOpen={isLoadingPopupOpen}
                 onClose={closeLoadingPopup}
                 dataLog={dataLog}
-                textPopup={textPopup} />
+                dataLogMessage={dataLogMessage}
+                textPopup={textPopup}
+                onBtnClick={abortCulculate} />
         </div>
     );
 }

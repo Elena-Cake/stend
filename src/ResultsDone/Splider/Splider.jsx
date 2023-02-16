@@ -6,7 +6,7 @@ import {
 } from 'recharts';
 import './Splider.css';
 
-const Splider = ({ dates, data }) => {
+const Splider = ({ dates, data, isVisible }) => {
 
     const [activeSlide, setActiveSlide] = useState(0);
 
@@ -24,7 +24,7 @@ const Splider = ({ dates, data }) => {
         data[key].map((item, i) => {
             dataChart.push({
                 name: dates[i],
-                data: data[key][i]
+                data: data[key][i].toFixed(2)
             })
         })
 
@@ -68,7 +68,7 @@ const Splider = ({ dates, data }) => {
     }
 
     return (
-        <div className={`charts ${data === {} ? 'charts_invisible' : ''}`}>
+        <div className={`charts ${isVisible ? '' : 'charts_invisible'}`}>
             <select className="charts__select" onChange={(event) => setActiveSlide(event.target.value)}>
                 {options}
             </select>

@@ -36,9 +36,9 @@ export const api = {
     },
 
     // Принудительное завершение выполнения задачи
-    abortCalculate(id) {
-        return instance.post('run', id)
-            .then(res => console.log(res))
+    abortCalculate() {
+        return instance.get('abort')
+            .then(res => res.data)
     }
 }
 
