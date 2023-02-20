@@ -4,4 +4,5 @@ http://modeller:9090/getres Запрос результата. Если расч
 http://modeller:9090/abort Принудительное завершение выполнения задачи
 
 
-C:\Program Files\Google\Chrome\Application\chrome.exe --disable-web-security --user-data-dir="D:\temp"
+cd C:\Program Files\Google\Chrome\Application
+chrome.exe --disable-web-security --user-data-dir="D:\temp"
