@@ -75,12 +75,6 @@ const ResultsDone = () => {
     // функция по нажатию на кнопку
     const createRequesObject = (arrayIdInstruments) => {
         setArrayIdInstruments(arrayIdInstruments)
-        // api.getResult()
-        //     .then(data => {
-        //         console.log(data)
-        //         setDataCharts(data)
-        //     })
-
     };
 
     // формирует запрос
@@ -101,15 +95,17 @@ const ResultsDone = () => {
                 status = res.message == [] ? '' : res.message;
                 setDataLog(status)
                 console.log(status)
-                if (status !== 'finished') {
-                    setTimeout(longAPI, 5000)
-                } else {
+                if (status === 'finished') {
                     api.getResult()
                         .then(data => {
                             setDataCharts(data)
                             setIsVisible(true)
                             closePopups()
                         })
+                } else if (status === 'aborted') {
+                    console.log('abort')
+                } else {
+                    setTimeout(longAPI, 5000)
                 }
             })
     }
@@ -125,18 +121,17 @@ const ResultsDone = () => {
             setIsErrorInputDateFrom(false)
             setIsErrorInputDateTo(false)
             setIsErrorArrayIdInstruments(false)
-            // console.log(dataRequest)
             setDataLogMessage('')
             setDataLog('')
             api.startCalculate(dataRequest)
                 .then((data) => {
                     if (data.success === 1) {
-                        setTextPopup({ text: 'Моделирование запущено', isError: false })
+                        setTextPopup({ text: 'Оценка запущена', isError: false })
                         setDataLogMessage(data.message)
                         openLoadingPopup()
                         longAPI()
                     } else if (data.success === 0) {
-                        setTextPopup({ text: 'Не удалось запустить моделирование', isError: true })
+                        setTextPopup({ text: 'Не удалось запустить оценку', isError: true })
                         setDataLogMessage(data.message)
                         openLoadingPopup()
                         longAPI()
@@ -149,7 +144,7 @@ const ResultsDone = () => {
     const abortCulculate = () => {
         api.abortCalculate()
             .then((data) => {
-                setTextPopup({ text: 'Моделирование прервано', isError: true })
+                setTextPopup({ text: 'Оценка прервана', isError: true })
                 closePopups()
                 openInfoPopup()
             })

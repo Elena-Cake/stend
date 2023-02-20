@@ -7,7 +7,7 @@ const IntervalDate = ({ onStartDateChange, onEndDateChange, isErrorInputDateFrom
     return (
         <div className="intervaldate">
             <h1 className="title">
-                Интервал моделирования
+                Интервал дат
             </h1>
             <div className="inputs__interval">
                 <p className="inputs__text">c</p>
